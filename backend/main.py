@@ -115,5 +115,9 @@ def api_products():
     data = scrape_products(product_choice)
     return jsonify(data)
 
+import os
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    PORT = int(os.environ.get("PORT", 10000))  # Usa a porta que o Render define
+    app.run(host="0.0.0.0", port=PORT, debug=True)
+
