@@ -44,17 +44,20 @@ def scrape_products(product_choice):
         return []
 
     # Configuração do Selenium para funcionar no Render
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Essencial em ambientes de contêiner
-    chrome_options.binary_location = "/usr/bin/google-chrome-stable"  # Caminho do Chrome no Render
+# Configuração do Selenium para funcionar no Render
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Executa em modo headless (sem interface gráfica)
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")  # Importante para servidores Linux
+chrome_options.binary_location = "/usr/bin/chromium-browser"  # Caminho correto do Chrome no Render
 
-    driver = webdriver.Chrome(
-        service=webdriver.chrome.service.Service(ChromeDriverManager().install()),
-        options=chrome_options
-    )
+# Inicializa o WebDriver corretamente
+driver = webdriver.Chrome(
+    executable_path="/usr/bin/chromedriver",  # Caminho do ChromeDriver no Render
+    options=chrome_options
+)
+
 
     resultados = []
     for item in PRODUCT_LINKS[product_choice]:
