@@ -4,7 +4,7 @@ import re
 from flask import Flask, jsonify, render_template, request
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 
 # Ajusta caminho para a pasta 'templates' (sobe um nível)
@@ -49,13 +49,13 @@ def scrape_products(product_choice):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")  # Importante para servidores Linux
-    chrome_options.binary_location = "/usr/bin/chromium-browser"  # Caminho correto do Chromium no Render
+    chrome_options.binary_location = "/usr/bin/chromium-browser"  # Caminho do Chromium instalado via apt.txt
 
-    # Inicializa o WebDriver corretamente
-    driver = webdriver.Chrome(
-        executable_path="/usr/bin/chromedriver",  # Caminho do ChromeDriver no Render
-        options=chrome_options
-    )
+    # Cria o objeto Service com o caminho do chromedriver
+    chrome_service = Service(executable_path="/usr/bin/chromedriver")
+
+    # Inicializa o WebDriver com o objeto service e as opções definidas
+    driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
     resultados = []
     for item in PRODUCT_LINKS[product_choice]:
