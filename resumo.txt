@@ -1,0 +1,39 @@
+🚀 Nome do Projeto: teste
+
+📅 Data de Criação: (Preencha a data)  
+📌 Finalidade: (Explique rapidamente o que esse projeto faz)  
+
+---
+
+📌 DESCRIÇÃO GERAL
+- (Explicação rápida do que o projeto faz)
+- Objetivo: (O que ele resolve?)
+- Status: (Em andamento, finalizado, precisa de melhorias?)  
+
+---
+
+🛠 TECNOLOGIAS UTILIZADAS
+✅ Power BI  
+✅ Excel  
+✅ Python (se houver scripts)  
+✅ Outras ferramentas: (Adicione aqui)  
+
+---
+
+📁 ESTRUTURA DO PROJETO
+📂 scripts/ → Contém scripts Python e automações  
+📂 power bi/ → Dashboards e relatórios Power BI  
+📂 excel/ → Planilhas e arquivos de dados  
+📂 static/ → Arquivos estáticos, se aplicável  
+📂 documentação/ → Documentos técnicos e guias  
+📂 versões_antigas/ → Arquivos antigos para referência  
+
+---
+
+🔥 PRINCIPAIS FUNCIONALIDADES
+✅ (Liste as principais funcionalidades do projeto)  
+✅ (O que ele automatiza ou resolve?)  
+✅ (Se houver integração, liste aqui)  
+
+
+
