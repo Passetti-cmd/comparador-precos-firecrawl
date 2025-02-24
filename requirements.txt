@@ -3,5 +3,3 @@ selenium
 webdriver_manager
 beautifulsoup4
 gunicorn
-chromium
-chromium-chromedriver
