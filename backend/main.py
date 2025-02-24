@@ -51,8 +51,8 @@ def scrape_products(product_choice):
     chrome_options.add_argument("--disable-dev-shm-usage")  # Importante para servidores Linux
     chrome_options.binary_location = "/usr/bin/chromium-browser"  # Caminho do Chromium instalado via apt.txt
 
-    # Cria o objeto Service com o caminho do chromedriver
-    chrome_service = Service(executable_path="/usr/bin/chromedriver")
+    # Cria o objeto Service com o caminho do ChromeDriver
+    chrome_service = Service(executable_path="/usr/lib/chromium-browser/chromedriver")
 
     # Inicializa o WebDriver com o objeto service e as opções definidas
     driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
