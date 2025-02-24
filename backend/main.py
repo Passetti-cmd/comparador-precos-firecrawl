@@ -17,21 +17,21 @@ app = Flask(__name__, template_folder=TEMPLATES_DIR)
 PRODUCT_LINKS = {
     "coca-cola": [
         {"store": "Pão de Açúcar", "url": "https://www.paodeacucar.com/produto/355907?storeId=461"},
-        {"store": "Lojas Rede", "url": "https://www.lojasrede.com.br/refrigerante-coca-cola-lata-310ml/p?idsku=798004&srsltid=AfmBOopsrxvPMQ3bemiK9ykI3owNZMmwSHoZM9h1ZuEFvqSCwi6_k1IDIhM"},
-        {"store": "Atacadão", "url": "https://www.atacadao.com.br/refrigerante-coca-cola-sleek-lata-com-310ml-55803-4100/p"},
-        {"store": "Carrefour", "url": "https://mercado.carrefour.com.br/cocacola-lata-310-ml-8666822/p"}
+        {"store": "Lojas Rede",    "url": "https://www.lojasrede.com.br/refrigerante-coca-cola-lata-310ml/p?idsku=798004"},
+        {"store": "Atacadão",      "url": "https://www.atacadao.com.br/refrigerante-coca-cola-sleek-lata-com-310ml-55803-4100/p"},
+        {"store": "Carrefour",     "url": "https://mercado.carrefour.com.br/cocacola-lata-310-ml-8666822/p"}
     ],
     "guarana": [
         {"store": "Pão de Açúcar", "url": "https://www.paodeacucar.com/produto/11428/refrigerante-guarana-diet-antarctica-garrafa-2l"},
-        {"store": "Amazon", "url": "https://www.amazon.com.br/Antarctica-Refrigerante-Guaraná-Pet/dp/B006DQOXTY/ref=sr_1_1"},
-        {"store": "Atacadão", "url": "https://www.atacadao.com.br/refrigerante-guarana-antarctica-19691-5482/p"},
-        {"store": "Carrefour", "url": "https://mercado.carrefour.com.br/refrigerante-guarana-antarctica-garrafa-2l-156396/p"}
+        {"store": "Amazon",        "url": "https://www.amazon.com.br/Antarctica-Refrigerante-Guaraná-Pet/dp/B006DQOXTY"},
+        {"store": "Atacadão",      "url": "https://www.atacadao.com.br/refrigerante-guarana-antarctica-19691-5482/p"},
+        {"store": "Carrefour",     "url": "https://mercado.carrefour.com.br/refrigerante-guarana-antarctica-garrafa-2l-156396/p"}
     ],
     "pepsi": [
         {"store": "Pão de Açúcar", "url": "https://www.paodeacucar.com/produto/149709/refrigerante-pepsi-garrafa-2l"},
-        {"store": "Amazon", "url": "https://www.amazon.com.br/Refrigerante-Pepsi-Pet-2-Litros/dp/B07Y2F2D85/ref=sr_1_17"},
-        {"store": "Atacadão", "url": "https://www.atacadao.com.br/refrigerante-pepsi-cola-21944-38140/p"},
-        {"store": "Carrefour", "url": "https://mercado.carrefour.com.br/refrigerante-pepsi-25l-garrafa-pet-7167180/p"}
+        {"store": "Amazon",        "url": "https://www.amazon.com.br/Refrigerante-Pepsi-Pet-2-Litros/dp/B07Y2F2D85"},
+        {"store": "Atacadão",      "url": "https://www.atacadao.com.br/refrigerante-pepsi-cola-21944-38140/p"},
+        {"store": "Carrefour",     "url": "https://mercado.carrefour.com.br/refrigerante-pepsi-25l-garrafa-pet-7167180/p"}
     ]
 }
 
@@ -45,14 +45,14 @@ def scrape_products(product_choice):
 
     # Configuração do Selenium para funcionar no Render
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Executa em modo headless (sem interface gráfica)
+    chrome_options.add_argument("--headless")        # Executa em modo headless (sem interface gráfica)
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Importante para servidores Linux
-    chrome_options.binary_location = "/usr/bin/chromium-browser"  # Caminho do Chromium instalado via apt.txt
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.binary_location = "/usr/bin/google-chrome-stable"  # Caminho do Chrome no Render
 
-    # Cria o objeto Service com o caminho do ChromeDriver
-    chrome_service = Service(executable_path="/usr/lib/chromium-browser/chromedriver")
+    # Caminho do ChromeDriver instalado via apt.txt
+    chrome_service = Service("/usr/bin/chromedriver")
 
     # Inicializa o WebDriver com o objeto service e as opções definidas
     driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
@@ -74,7 +74,9 @@ def scrape_products(product_choice):
             nome = nome_elem.get_text(strip=True) if nome_elem else "Nome não encontrado"
 
             # Extrair preço (buscando tags que contenham 'R$')
-            preco_elem = soup.find(lambda tag: tag.name in ["span", "p"] and tag.get_text() and "R$" in tag.get_text())
+            preco_elem = soup.find(
+                lambda tag: tag.name in ["span", "p"] and tag.get_text() and "R$" in tag.get_text()
+            )
             preco_texto = preco_elem.get_text(strip=True) if preco_elem else "Preço não encontrado"
 
             # Converter preço em float
@@ -115,5 +117,5 @@ def api_products():
     return jsonify(data)
 
 if __name__ == '__main__':
-    PORT = int(os.environ.get("PORT", 10000))  # Usa a porta definida pelo ambiente (Render define PORT)
+    PORT = int(os.environ.get("PORT", 10000))  # Usa a porta definida pelo ambiente
     app.run(host="0.0.0.0", port=PORT, debug=True)
